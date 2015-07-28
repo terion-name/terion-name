@@ -1,0 +1,5 @@
+mixin menu(active)
+    nav.top_menu
+        ul
+            li(class=(active == 'portfolio' ? 'active' : '')): a(href='/portfolio') Portfolio
+            li(class=(active == 'about' ? 'active' : '')): a(href='/about') About

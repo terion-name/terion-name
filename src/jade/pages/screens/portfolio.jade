@@ -1,0 +1,83 @@
+section.screen#portfolio
+    .works.grid
+        .wraper
+            - var n = 0
+            while n < 9
+                article.item.frontend.graphic_design.awarded
+                    //img.sizer(src='/img/sizer_16x9.png')
+                    a.details(href='/work.html')
+                    .heading
+                        a.url(href='http://beloesuhoe.com', target='_blank') 1 beloesohoe.com
+                        span.scope | frontend, graphic design
+                    .awards
+                        a.kiaf(href='#', target='_blank')
+                        a.fwa(href='#', target='_blank')
+                        a.csswinner.sod(href='#', target='_blank')
+                        a.awwwards.hm(href='#', target='_blank')
+                article.item.frontend.graphic_design
+                    //img.sizer(src='/img/sizer_16x9.png')
+                    a.details(href='/work.html')
+                    .heading
+                        a.url(href='http://beloesuhoe.com', target='_blank') 2 beloesohoe.com
+                        span.scope | frontend, graphic design
+                    .awards
+                        a.kiaf(href='#', target='_blank')
+                        a.fwa(href='#', target='_blank')
+                        a.csswinner.sod(href='#', target='_blank')
+                        a.awwwards.hm(href='#', target='_blank')
+                article.item.frontend.awarded
+                    //img.sizer(src='/img/sizer_16x9.png')
+                    a.details(href='/work.html')
+                    .heading
+                        a.url(href='http://beloesuhoe.com', target='_blank') 3 beloesohoe.com
+                        span.scope | frontend, graphic design
+                    .awards
+                        a.kiaf(href='#', target='_blank')
+                        a.fwa(href='#', target='_blank')
+                        a.csswinner.sod(href='#', target='_blank')
+                        a.awwwards.hm(href='#', target='_blank')
+                - n++
+
+        .arrows
+            button.left.nav_left
+            button.right.nav_right
+        .works-list-display
+            - var n = 0
+            while n < 9
+                .item.frontend.graphic_design
+                    a(href="#") beloesohoe.com
+                    a.url(href='http://beloesuhoe.com', target='_blank')
+                    span.scope | frontend, graphic design
+                .item.frontend.graphic_design.awarded
+                    a(href="#") beloesohoe.com
+                    a.url(href='http://beloesuhoe.com', target='_blank')
+                    span.scope | frontend, graphic design
+                .item.frontend.graphic_design
+                    a(href="#") beloesohoe.com
+                    a.url(href='http://beloesuhoe.com', target='_blank')
+                    span.scope | frontend, graphic design
+                .item.graphic_design.awarded
+                    a(href="#") beloesohoe.com
+                    a.url(href='http://beloesuhoe.com', target='_blank')
+                    span.scope | frontend, graphic design
+                - n++
+
+    .controls
+        .display-mode
+            ul.list-type
+                li: button.display_mode.grid_big.active(data-type='grid_big')
+                li: button.display_mode.grid_small(data-type='grid_small')
+                li: button.display_mode.list(data-type='list')
+        .scope
+            .title scope of work:
+            ul.list
+                li: button.filter-button.active(data-type='frontend') frontend
+                li: button.filter-button.active(data-type='backend') backend
+                li: button.filter-button.active(data-type='architecture') architecture
+                li: button.filter-button.active(data-type='graphic_design') graphic design
+                li: button.filter-button.active(data-type='3d') 3d
+        .filter
+            .title display only:
+            ul.list
+                li: button.filter-button.only(data-type='awarded') awarded
+                li: button.filter-button.only(data-type='highload') highload

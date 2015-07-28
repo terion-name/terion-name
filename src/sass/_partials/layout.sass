@@ -1,0 +1,157 @@
+$fontLight: "titillium_weblight", arial, sans serif
+$fontBold: 'titillium_websemibold', arial, sans serif
+$lightGrey: #b2b2b2
+$ultraLightGrey: #dbdbdb
+
+body, html, #container
+  position: relative
+  height: 100%
+  font-family: $fontLight
+  font-size: 14px
+  min-height: 500px
+  background: #000
+
+body.disable-hover
+  pointer-events: none
+
+#container
+  overflow: auto
+
+
+h1, h2, h3, h4
+  font-family: $fontBold
+  text-transform: uppercase
+  font-weight: normal
+  line-height: 1em
+
+a
+  color: inherit
+  text-decoration: underline
+  &:hover
+    text-decoration: none
+
+strong
+  font-weight: normal
+  font-family: $fontBold
+
+button
+  border: none
+  cursor: pointer
+  background: $ultraLightGrey
+  color: #000
+  text-transform: uppercase
+  outline: none
+  +transition(color 0.2s, background-color 0.2s)
+  &:hover
+    background: #fff
+    +transition(color 0.2s, background-color 0.2s)
+  &.active
+    background: #000
+    color: #fff
+    +transition(color 0.2s, background-color 0.2s)
+    &:hover
+      background: #444
+      +transition(color 0.2s, background-color 0.2s)
+
+
+img
+  outline: none
+
+section.screen
+  position: relative
+  height: 100%
+  background: #000
+  color: #fff
+  +box-sizing(border-box)
+  padding-top: 55px
+
+#header
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  color: #fff
+  z-index: 50
+  padding-top: 1em
+  height: 55px
+  +box-sizing(border-box)
+  background: #000
+  .likes-widget
+    float: left
+    margin-left: 1em
+    margin-top: 5px
+  .top_menu
+    float: right
+    text-transform: uppercase
+    a
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+    ul
+      margin: 0
+      padding: 0
+      list-style: none
+    li
+      display: inline-block
+      margin-right: 1em
+      padding: 0.2em 0.5em 0.25em
+      &.active
+        outline: 1px solid #fff
+
+.likes-widget
+  white-space: nowrap
+  color: #fff
+  font-size: 14px
+  line-height: 13px
+  .container
+    display: none
+  .fb, .vk, .tw
+    display: inline-block
+    vertical-align: top
+    padding-left: 20px
+    height: 13px
+    margin-right: 1em
+    background:
+      position: left bottom
+      repeat: no-repeat
+      size: auto 100%
+  .fb
+    padding-left: 12px
+    background-image: url("../img/soc/fb.svg")
+  .vk
+    padding-left: 22px
+    background-image: url("../img/soc/vk.svg")
+    background-size: auto 90%
+  .tw
+    background-image: url("../img/soc/tw.svg")
+  &.inverted
+    color: #000
+    .fb
+      background-image: url("../img/soc/fb_b.svg")
+    .vk
+      background-image: url("../img/soc/vk_b.svg")
+    .tw
+      background-image: url("../img/soc/tw_b.svg")
+
+.awards
+  a
+    display: inline-block
+    width: 45px
+    height: 45px
+    margin: 5px
+    background:
+      position: center
+      repeat: no-repeat
+      size: contain
+    &:last-child
+      margin-right: 10px
+    &.kiaf
+      background-image: url("../img/awards/kiaf/bw.svg")
+    &.fwa
+      background-image: url("../img/awards/fwa/fwa.svg")
+    &.csswinner.sod
+      background-image: url("../img/awards/csswinner/oftheday.svg")
+    &.csswinner.nominee
+      background-image: url("../img/awards/csswinner/nominee.svg")
+    &.awwwards.hm
+      background-image: url("../img/awards/awwwards/hm.svg")

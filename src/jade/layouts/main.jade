@@ -1,0 +1,27 @@
+include ../mixins/menu.jade
+include ../mixins/likes.jade
+include ../mixins/ga.jade
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta( name="viewport", content="width=device-width")
+        block title
+            title Terion
+        link(rel="stylesheet", href="/fonts/stylesheet.css")
+        link(rel="stylesheet", href="/css/styles.css")
+        link(rel="icon", type="image/png", href="/img/favicon.png")
+        script(src="/vendor/promise-ajax-js/promise.min.js")
+        script(src="/vendor/velocity/velocity.min.js")
+        //script(src="/vendor/isotope/dist/isotope.pkgd.min.js")
+        //script(src="/vendor/isotope-fit-columns/fit-columns.js")
+
+    body
+        #container
+            #header
+                +likes('/')
+                block menu
+                    +menu()
+            block content
+        script(src="/js/scripts.js")

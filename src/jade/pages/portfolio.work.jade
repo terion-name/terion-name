@@ -1,0 +1,29 @@
+extends ../layouts/main
+
+block content
+    section.screen#work
+        .gallery
+            .wraper
+                .slide.image(style='background-image: url("/img/portfolio/beloesuhoe/scr1.jpg")')
+                .slide.image(style='background-image: url("/img/portfolio/beloesuhoe/scr1.jpg")')
+                .slide.image(style='background-image: url("/img/portfolio/beloesuhoe/scr1.jpg")')
+                .slide.image(style='background-image: url("/img/portfolio/beloesuhoe/scr1.jpg")')
+            .arrows
+                button.left
+                button.right
+        .desc
+            a.back(href='/portfolio')
+            h1
+                a.url(href='http://beloesuhoe.com', target='_blank') beloesohoe.com
+                span.scope | frontend, graphic design
+            p.details.
+                Video production site based on interactive video and photo environment
+                <br><strong>Detailed scope of work:</strong> video and images processing, color correction, photomontage,
+                frontend develop (backend is absent)
+                <br><strong>Tech:</strong> HTML5, video, JS, jQuery, SVG
+            +likes('/portfolio/beloesuhoe', true)
+            .awards
+                a.kiaf(href='#', target='_blank')
+                a.fwa(href='#', target='_blank')
+                a.csswinner.sod(href='#', target='_blank')
+                a.awwwards.hm(href='#', target='_blank')
