@@ -5,7 +5,7 @@ section.screen#portfolio
             while n < 9
                 article.item.frontend.graphic_design.awarded
                     //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/work.html')
+                    a.details(href='/portfolio/work/')
                     .heading
                         a.url(href='http://beloesuhoe.com', target='_blank') 1 beloesohoe.com
                         span.scope | frontend, graphic design
@@ -16,7 +16,7 @@ section.screen#portfolio
                         a.awwwards.hm(href='#', target='_blank')
                 article.item.frontend.graphic_design
                     //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/work.html')
+                    a.details(href='/portfolio/work/')
                     .heading
                         a.url(href='http://beloesuhoe.com', target='_blank') 2 beloesohoe.com
                         span.scope | frontend, graphic design
@@ -27,7 +27,7 @@ section.screen#portfolio
                         a.awwwards.hm(href='#', target='_blank')
                 article.item.frontend.awarded
                     //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/work.html')
+                    a.details(href='/portfolio/work/')
                     .heading
                         a.url(href='http://beloesuhoe.com', target='_blank') 3 beloesohoe.com
                         span.scope | frontend, graphic design
@@ -37,27 +37,27 @@ section.screen#portfolio
                         a.csswinner.sod(href='#', target='_blank')
                         a.awwwards.hm(href='#', target='_blank')
                 - n++
-
+                
         .arrows
             button.left.nav_left
             button.right.nav_right
         .works-list-display
             - var n = 0
             while n < 9
-                .item.frontend.graphic_design
-                    a(href="#") beloesohoe.com
+                .item.simple.frontend.graphic_design
+                    a.details(href="/portfolio/work/") beloesohoe.com
                     a.url(href='http://beloesuhoe.com', target='_blank')
                     span.scope | frontend, graphic design
-                .item.frontend.graphic_design.awarded
-                    a(href="#") beloesohoe.com
+                .item.simple.frontend.graphic_design.awarded
+                    a.details(href="/portfolio/work/") beloesohoe.com
                     a.url(href='http://beloesuhoe.com', target='_blank')
                     span.scope | frontend, graphic design
-                .item.frontend.graphic_design
-                    a(href="#") beloesohoe.com
+                .item.simple.frontend.graphic_design
+                    a.details(href="/portfolio/work/") beloesohoe.com
                     a.url(href='http://beloesuhoe.com', target='_blank')
                     span.scope | frontend, graphic design
-                .item.graphic_design.awarded
-                    a(href="#") beloesohoe.com
+                .item.simple.graphic_design.awarded
+                    a.details(href="/portfolio/work/") beloesohoe.com
                     a.url(href='http://beloesuhoe.com', target='_blank')
                     span.scope | frontend, graphic design
                 - n++

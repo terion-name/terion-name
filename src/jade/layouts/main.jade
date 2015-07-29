@@ -1,6 +1,8 @@
 include ../mixins/menu.jade
 include ../mixins/likes.jade
 include ../mixins/ga.jade
+include ../mixins/facebook_init.jade
+include ../mixins/vk_init.jade
 
 <!DOCTYPE html>
 html(lang="en")
@@ -16,12 +18,16 @@ html(lang="en")
         script(src="/vendor/velocity/velocity.min.js")
         //script(src="/vendor/isotope/dist/isotope.pkgd.min.js")
         //script(src="/vendor/isotope-fit-columns/fit-columns.js")
+            
+        +vk_init(4453207)
 
     body
+        +facebook_init(138087002934621)
         #container
-            #header
+            #header.home
+                img.logo(src='/img/logo.svg', alt='Terion', title='Terion')
                 +likes('/')
                 block menu
-                    +menu()
+                    +menu('home')
             block content
         script(src="/js/scripts.js")

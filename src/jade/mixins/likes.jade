@@ -1,11 +1,37 @@
 mixin likes(url, inverted)
-    .likes-widget(class=(inverted ? 'inverted': ''))
+    .likes-widget(class=(inverted ? 'inverted' : ''))
         .fb
             .holder like
             .container
+                .fb-like(data-href="#{url}", data-width='100', data-layout='button_count', data-action='like', data-show-faces='false', data-share='false')
         .vk
             .holder like
             .container
+                .vk-like
+                script(type='text/javascript').
+                    (function () {
+                        var likers = document.getElementsByClassName('vk-like');
+                        for (var i = 0; i < likers.length; i++) {
+                            var liker = likers[i];
+                            if (!liker.getAttribute('id')) {
+                                var randomId = 'vk_like_' + Math.ceil(Math.random() * Math.random() * 10000);
+                                liker.setAttribute('id', randomId);
+                                VK.Widgets.Like(randomId, {height: 20, locale: 'en_US'});
+                            }
+                        }
+                    })();
+
         .tw
             .holder tweet
             .container
+                a.twitter-share-button(href="#{url}", data-text='', data-via='terion_fallen') Tweet
+                script.
+                    !function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + '://platform.twitter.com/widgets.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'twitter-wjs');

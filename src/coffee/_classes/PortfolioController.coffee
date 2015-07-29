@@ -16,7 +16,7 @@ class PortfolioController
     @worksWraper = @works.getElementsByClassName('wraper')[0]
     @items = []
     @listView = @container.getElementsByClassName('works-list-display')[0]
-    @listViewItems = @listView.getElementsByClassName('item')
+    @listViewItems = []
     @controls = @container.getElementsByClassName('controls')[0]
     @controlButtons = @controls.getElementsByClassName('filter-button')
     @displayModeButtons = @controls.getElementsByClassName('display_mode')
@@ -29,6 +29,9 @@ class PortfolioController
   init: ->
     for item in @worksWraper.getElementsByClassName('item')
       @items.push new PortfolioItem item, @worksWraper, @container
+      
+    for item in @listView.getElementsByClassName('item')
+      @listViewItems.push new PortfolioItem item, @worksWraper, @container
 
     @adaptWraper()
     @updateFilter()

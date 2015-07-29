@@ -17,6 +17,6 @@ gulp.task 'sass', ->
     style: 'expanded'
     bundle_exec: true
   .on 'error', (e)-> console.error e
-  #.pipe autoprefixer browsers: ['last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'], remove: false
-  #.pipe csso()
+  .pipe autoprefixer browsers: ['last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'], remove: false
+  .pipe csso()
   .pipe gulp.dest 'build/css'

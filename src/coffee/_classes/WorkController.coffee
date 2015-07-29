@@ -1,6 +1,7 @@
 class WorkController
 
   constructor: (@container)->
+    @container.controller = this
     @transitionDuration = 300
     @animating = false
     @gallery = @container.getElementsByClassName('gallery')[0]
@@ -29,6 +30,7 @@ class WorkController
         return if @animating
         e.preventDefault()
         @disappear()
+        window.history?.pushState({index: 1}, '', "/portfolio")
 
     @buttonRight.addEventListener 'click', (e)=>
       return if @animating
@@ -38,7 +40,7 @@ class WorkController
       @galleryPrev()
 
 
-  appear: ->
+  appear: (callback)->
     @gallery.style.top = '-100%'
 
     @animStarted()
@@ -48,7 +50,10 @@ class WorkController
       duration: @transitionDuration
       easing: 'easeOutQuad'
       complete: =>
-        Velocity @gallery, {top: 0}, {duration: @transitionDuration, easing: 'easeOutQuad', complete: => @animEnded()}
+        Velocity @gallery, {top: 0}, {duration: @transitionDuration, easing: 'easeOutQuad', complete: => 
+          @animEnded()
+          callback(this) if callback
+        }
     }
 
   disappear: ->

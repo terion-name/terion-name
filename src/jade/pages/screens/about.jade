@@ -1,1 +1,73 @@
 section.screen#about
+    .col.photo
+        .cnt
+
+    .col.bio
+
+        ul(itemscope, itemtype ="http://schema.org/Person")
+            li
+                strong Name:
+                span(itemprop="name") Volodymyr Kornilov
+            li
+                strong Location:
+                span(itemprop="address", itemscope, itemtype ="http://schema.org/PostalAddress")
+                    span(itemprop="addressLocality") Kyiv, Ukraine
+            li
+                strong Brief:
+                span(itemprop="description") Full stack developer with high graphic design skills and medium 3D-modeling skills. For freelance mostly specialized on promo pages with complex frontend. In general also with skills and experience for big-scale and highload projects.
+            li
+                strong Keywords:
+                span frontend, backend, graphic design, HTML5, CSS3, javascript, jQuery, VelocityJS, coffeescript, SASS, PHP, Laravel 5, REST, MySQL, MariaDB, MongoDB, redis, vagrant, gulp, GIT, Adobe Photoshop, Adobe Illutrator, Blender 3D
+            li
+                strong Contacts:
+                span(itemprop="email")
+                    a(href="mailto:mail@terion.name") mail@terion.name
+                | , phone on demand
+            li
+                strong Over internet:
+                span
+                    a(href="https://www.facebook.com/vkornilov", target="_blank") facebook
+                    |, 
+                    a(href="https://twitter.com/terion_fallen", target="_blank") twitter
+                    |, 
+                    a(href="https://www.linkedin.com/profile/view?id=114006234", target="_blank") linkedin
+                    |, 
+                    a(href="https://github.com/terion-name", target="_blank") github
+                    |, 
+                    a(href="http://stackexchange.com/users/1128033/Владимир-Корнилов", target="_blank") stackexchange
+            li.employment
+                strong Employment:
+                ul
+                    li
+                        strong Chief Technology Officer
+                        a(href="http://territory.com.ua", target="_blank") CB Territory
+                        span January 2011 — July 2015 |  Kyiv, Ukraine
+                        button.employment_expand show more
+                    li
+                        strong Chief Technology Officer
+                        a(href="http://bicycle-day.com", target="_blank") Bicycle Day
+                        span April 2010 — July 2012 |  Kyiv, Ukraine
+                    li
+                        strong Development Lead (part-time)
+                        a(href="http://prodigiagency.com/", target="_blank") PRODIGI
+                        span May 2011 — October 2011 |  Kyiv, Ukraine
+                    li
+                        strong Web Designer, Web Developer
+                        a(href="http://4art.com.ua/", target="_blank") 4Art studio
+                        span June 2008 — April 2010
+                    li
+                        strong Web Designer
+                        a(href="http://sovdep.com", target="_blank") sovdep.com (browser game)
+                        span January 2007 — August 2008
+
+    .col.work
+        div: strong Employment status
+        p.
+            Currently free and open for freelance. Preferable are promo-like websites with non-standart frontend, 
+            but everything is discussable.<br>
+            Average rate for frontend: $150 for first page/view and $50 for every other.<br>
+            Hourly rate (for both frontend and backend): $20<br>
+            Everything else depends on specific tasks.
+        p
+            | Email for work-specific questions: 
+            a(href="mailto:work@terion.name") work@terion.name

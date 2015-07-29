@@ -26,6 +26,8 @@ class HomeController
       @logoOuter.style.transform = "rotateY(#{deg * 1}deg) rotateX(#{deg2}deg)"
       @logoOuter.style.WebkitTransform = "rotateY(#{deg * 1}deg) rotateX(#{deg2}deg)"
 
+    @scroller.addEventListener 'click', -> window.router.goto 1
+
   init: ->
     @scrollerAnimate()
 

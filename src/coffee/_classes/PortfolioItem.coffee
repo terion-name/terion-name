@@ -1,19 +1,22 @@
 class PortfolioItem
 
   constructor: (@item, @container, @workContainer)->
+    @item.controller = this
+    @isSimple = hasClass @item, 'simple'
     @row = 0
     @column = 0
     @width = 0
     @height = 0
+    @url = @item.getElementsByClassName('details')[0].getAttribute('href')
 
-    @item.style.position = 'absolute'
+    @item.style.position = 'absolute' unless @isSimple
 
     @bind()
 
   bind: ->
     @item.getElementsByClassName('details')[0]?.addEventListener 'click', (e)=>
       e.preventDefault()
-      @loadWork e.target.getAttribute('href')
+      @loadWork()
 
   setRow: (row)-> @row = row
 
@@ -24,6 +27,7 @@ class PortfolioItem
     @height = height
 
   place: (tranitionDuration, callback)->
+    return if @isSimple
     left = @column * @width
     top = @row * @height
     if not tranitionDuration or tranitionDuration == 0
@@ -44,8 +48,8 @@ class PortfolioItem
         complete: => callback(@item) if callback
       }
 
-  loadWork: (url)->
-    promise.get(url).then (error, text, xhr)=>
+  loadWork: (noPopState, customUrl)->
+    promise.get(customUrl or @url).then (error, text, xhr)=>
       #console.log text
       if (error)
         console.error error
@@ -59,5 +63,12 @@ class PortfolioItem
         work.innerHTML = doc.getElementById('work').innerHTML
 
         workCntrl = new WorkController work
-        workCntrl.appear()
+        workCntrl.appear (w)->
+          FB?.XFBML.parse w.container
+          twttr?.widgets.load()
         @workContainer.appendChild work
+        for s in work.getElementsByTagName('script')
+          eval s.innerHTML
+          
+        window.history?.pushState({index: 1, work: @url}, '', @url) unless noPopState
+        
