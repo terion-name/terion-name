@@ -7,6 +7,9 @@ class PortfolioController
 
   constructor: (@container)->
 
+    @container.controller = this
+    @setuped = false
+
     @mode = 'grid_big'
     @listOverlay = false
     @animating = false
@@ -28,7 +31,11 @@ class PortfolioController
 
   init: ->
     for item in @worksWraper.getElementsByClassName('item')
-      @items.push new PortfolioItem item, @worksWraper, @container
+      it = new PortfolioItem item, @worksWraper, @container
+      loader = new Loader it.item
+      loader.start()
+      it.loader = loader
+      @items.push it
       
     for item in @listView.getElementsByClassName('item')
       @listViewItems.push new PortfolioItem item, @worksWraper, @container
@@ -60,6 +67,19 @@ class PortfolioController
     @goRight.addEventListener 'click', (e)=> @navRight()
     @goLeft.addEventListener 'click', (e)=> @navLeft()
 
+  setup: ->
+    return if @setuped
+    
+    for item in @items
+      imageSrc = item.item.getAttribute('data-preview')
+      img = new Image
+      img.onload = ((item)->->
+          item.loader?.stop()
+          item.item.style.backgroundImage = "url('#{this.src}')"
+      )(item)
+      img.src = imageSrc
+    @setuped = true
+    
   getVisibleItems: ->
     visibleItems = []
     for e in @items

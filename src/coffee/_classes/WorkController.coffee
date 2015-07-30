@@ -17,12 +17,18 @@ class WorkController
   init: ->
     for slide in @slides
       slide.style.display = 'none'
+      loader = new Loader slide
+      slide.loader = loader
+      loader.start()
+      
     @slides[0].style.display = ''
     @currentSlide = 0
 
     if @slides.length == 1
       @buttonRight.style.display = 'none'
       @buttonLeft.style.display = 'none'
+
+    @loadSlide @slides[@currentSlide]
 
   bind: ->
     @back.addEventListener 'click', (e)=>
@@ -90,6 +96,7 @@ class WorkController
   galleryMove: (slide, toLeft)->
     cur = @slides[@currentSlide]
     next = @slides[slide]
+    @loadSlide next
     @animStarted()
     Velocity cur, { left: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
       duration: @transitionDuration * 2, display: 'none'
@@ -99,6 +106,16 @@ class WorkController
     }
     @currentSlide = slide
 
+  loadSlide: (slide)->
+    unless slide.style.backgroundImage
+      imageSrc = slide.getAttribute('data-image')
+      img = new Image
+      img.onload = ((slide)->->
+        slide.loader?.stop()
+        slide.style.backgroundImage = "url('#{this.src}')"
+      )(slide)
+      img.src = imageSrc
+    
   animStarted: ->
     @animating = true
     addClass document.body, 'disable-hover'

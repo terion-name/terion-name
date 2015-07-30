@@ -47,6 +47,7 @@ class Router
         setTimeout (=>
           @animEnded()
           callback(scr) if callback
+          @screens[scr].controller?.setup?()
         ), 10
         
     if @screen != scr
@@ -123,7 +124,7 @@ class Router
     opts = {}
     opts.page = path[0] or 'home'
     if path[0] == 'portfolio' and path[1]?
-      opts.work = path[1]
+      opts.work = '/portfolio/' + path[1]
     @loadScreen opts, 0
     
     
