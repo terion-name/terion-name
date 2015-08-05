@@ -19,12 +19,16 @@ class Router
   init: ->
     @container.style.overflow = 'hidden'
     @container.scrollTop = 0
-    
+
+      
   bind: ->
-    @screens[0].addEventListener 'wheel', (e)=>
-      return if @animating
-      if e.deltaY > 0 and (@body.scrollTop >= @body.scrollHeight - window.innerHeight)
-        @goto(1)
+    for sceen, index in @screens
+      sceen.addEventListener 'wheel', ((index)=>(e)=>
+        return if @animating
+        if e.deltaY > 0 and (@body.scrollTop >= @body.scrollHeight - window.innerHeight)
+          if index < @screens.length - 1 then @loadScreen({index: index+1}, null, true) 
+        else if e.deltaY < 0 and (@body.scrollTop == 0)
+          if index > 0 then @loadScreen({index: index-1}, null, true))(index)
         
     window.addEventListener 'resize', => @adjustScreen()
 
@@ -75,6 +79,7 @@ class Router
           @screens[scr].style.zIndex = ''
           @screens[@screen].style.zIndex = ''
 
+      
       @screen = scr
       @onScreenChange(scr) if @onScreenChange
       window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}") unless noPopState
@@ -105,7 +110,6 @@ class Router
 
   initSinglePage: ->
     promise.get('/').then (error, text, xhr)=>
-      #console.log text
       if (error)
         console.error error
         #TODO handle error

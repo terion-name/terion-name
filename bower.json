@@ -15,8 +15,6 @@
   ],
   "dependencies": {
     "velocity": "~1.2.2",
-    "isotope": "~2.2.1",
-    "isotope-fit-columns": "~1.1.2",
     "promise-ajax-js": "*"
   }
 }

@@ -16,8 +16,6 @@ html(lang="en")
         link(rel="icon", type="image/png", href="/img/favicon.png")
         script(src="/vendor/promise-ajax-js/promise.min.js")
         script(src="/vendor/velocity/velocity.min.js")
-        //script(src="/vendor/isotope/dist/isotope.pkgd.min.js")
-        //script(src="/vendor/isotope-fit-columns/fit-columns.js")
             
         block socials
             meta(property="og:url", content="http://terion.name")
@@ -33,6 +31,17 @@ html(lang="en")
 
     body
         +facebook_init(800918833348791)
+        
+        script
+            :coffee-script
+                globalLoader = document.createElement 'div'
+                globalLoader.className = 'global_loader'
+                globalLoader.id = 'global_loader'
+                globalLoader.innerHTML = '<div class="loader_widget">' +
+                        '<img class="outer" src="/img/loader_outer.svg">' +
+                        '<img class="inner" src="/img/loader_inner.svg">' +
+                        '</div>'
+                document.body.appendChild(globalLoader)
         #container
             #header.home
                 img.logo(src='/img/logo.svg', alt='Terion', title='Terion')

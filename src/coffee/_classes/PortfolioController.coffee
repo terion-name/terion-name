@@ -178,8 +178,7 @@ class PortfolioController
       @animEnded()
 
     @animStarted() if transition
-    i = 0
-    for item in visibleItems
+    for item, i in visibleItems
       pos = coordsCalc(i)
       item.setRow(pos.row)
       item.setColumn(pos.col)
@@ -188,7 +187,6 @@ class PortfolioController
         item.place(transition, onComplete)
       else
         item.place(transition)
-      ++i
     onComplete() unless transition
 
 

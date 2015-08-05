@@ -8,6 +8,7 @@ class PortfolioItem
     @width = 0
     @height = 0
     @url = @item.getElementsByClassName('details')[0].getAttribute('href')
+    @freeze = false
 
     @item.style.position = 'absolute' unless @isSimple
 
@@ -16,6 +17,7 @@ class PortfolioItem
   bind: ->
     @item.getElementsByClassName('details')[0]?.addEventListener 'click', (e)=>
       e.preventDefault()
+      return if @freeze
       @loadWork()
 
   setRow: (row)-> @row = row
@@ -49,26 +51,37 @@ class PortfolioItem
       }
 
   loadWork: (noPopState, customUrl)->
+    @freeze = true
+    loader = new Loader @item
+    loader.start()
     promise.get(customUrl or @url).then (error, text, xhr)=>
-      #console.log text
       if (error)
         console.error error
+        loader.stop()
+        @freeze = false
         #TODO handle error
       else
         parser = new DOMParser()
         doc = parser.parseFromString(text, "text/html");
+        addClass doc.getElementsByClassName('desc')[0], 'hidden'
+        addClass doc.getElementsByClassName('gallery')[0], 'hidden'
 
         work = document.createElement 'div'
         work.className = 'work_overlay'
         work.innerHTML = doc.getElementById('work').innerHTML
 
-        workCntrl = new WorkController work
-        workCntrl.appear (w)->
-          FB?.XFBML.parse w.container
-          twttr?.widgets.load()
         @workContainer.appendChild work
+        workCntrl = new WorkController work
+
         for s in work.getElementsByTagName('script')
           eval s.innerHTML
+
+        setTimeout (->
+          workCntrl.appear (w)->
+            FB?.XFBML.parse w.container
+            twttr?.widgets.load()
+        ), 50
           
         window.history?.pushState({index: 1, work: @url}, '', @url) unless noPopState
-        
+        loader.stop()
+        @freeze = false

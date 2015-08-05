@@ -195,13 +195,15 @@ section.screen
       background-image: url("../img/awards/csswinner/nominee.svg")
     &.awwwards.hm
       background-image: url("../img/awards/awwwards/hm.svg")
+    &.cssdesignawards.sk
+      background-image: url("../img/awards/cssdesignawards/sk.svg")
       
 
 
 .loader_widget
   display: block
   position: absolute
-  width: 30%
+  width: 20%
   left: 50%
   top: 50%
   +transform(translate(-50%, -50%))
@@ -240,3 +242,21 @@ section.screen
     +transform(rotateY(360deg))
   to
     +transform(rotateY(0deg))
+    
+.global_loader
+  position: absolute
+  width: 100%
+  height: 100%
+  background: #000
+  z-index: 100
+  left: 0
+  top: 0
+  opacity: 1
+  +transition(opacity 1s)
+  &.hide
+    opacity: 0
+    +transition(opacity 1s)
+  .loader_widget
+    width: 10%
+    @media(max-width: 500px)
+      width: 20%

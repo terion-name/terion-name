@@ -17,7 +17,6 @@ class Header
           e.preventDefault()
           window.router.loadScreen {index: parseInt(e.target.getAttribute 'data-screen')},null, true
           
-    
   homeMode: (active)->
     return if active == @homeMode
     @isHomeMode = active
@@ -30,10 +29,8 @@ class Header
       removeClass @container, 'home'
 
   updateActive: (num)->
-    i = 0
-    for li in @topMenu.getElementsByTagName('li')
+    for li, i in @topMenu.getElementsByTagName('li')
       if num == i
         addClass li, 'active'
       else
         removeClass li, 'active'
-      ++i

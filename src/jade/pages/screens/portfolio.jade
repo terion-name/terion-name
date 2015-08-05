@@ -1,67 +1,34 @@
 section.screen#portfolio
     .works.grid
         .wraper
-            - var n = 0
-            while n < 9
-                article.loading.item.frontend.graphic_design.awarded(data-preview="/img/portfolio/beloesuhoe/preview.jpg")
-                    //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/portfolio/work/')
+            each work in portfolio
+                article.loading.item(class="#{work.tags.join(' ')}", data-preview="/img/portfolio/#{work.alias}/#{work.media.preview}")
+                    a.details(href="/portfolio/#{work.alias}/")
                     .heading
-                        a.url(href='http://beloesuhoe.com', target='_blank') 1 beloesohoe.com
-                        span.scope | frontend, graphic design
-                    .awards
-                        a.kiaf(href='#', target='_blank')
-                        a.fwa(href='#', target='_blank')
-                        a.csswinner.sod(href='#', target='_blank')
-                        a.awwwards.hm(href='#', target='_blank')
-                article.loading.item.frontend.graphic_design(data-preview="/img/portfolio/beloesuhoe/preview.jpg")
-                    //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/portfolio/work/')
-                    .heading
-                        a.url(href='http://beloesuhoe.com', target='_blank') 2 beloesohoe.com
-                        span.scope | frontend, graphic design
-                    .awards
-                        a.kiaf(href='#', target='_blank')
-                        a.fwa(href='#', target='_blank')
-                        a.csswinner.sod(href='#', target='_blank')
-                        a.awwwards.hm(href='#', target='_blank')
-                article.loading.item.frontend.awarded(data-preview="/img/portfolio/beloesuhoe/preview.jpg")
-                    //img.sizer(src='/img/sizer_16x9.png')
-                    a.details(href='/portfolio/work/')
-                    .heading
-                        a.url(href='http://beloesuhoe.com', target='_blank') 3 beloesohoe.com
-                        span.scope | frontend, graphic design
-                    .awards
-                        a.kiaf(href='#', target='_blank')
-                        a.fwa(href='#', target='_blank')
-                        a.csswinner.sod(href='#', target='_blank')
-                        a.awwwards.hm(href='#', target='_blank')
-                - n++
+                        a.url(href="#{work.url}", target='_blank') #{work.site_name}
+                        span.scope | #{work.scope}
+                    if work.awards
+                        .awards
+                            each award in work.awards
+                                each url, type in award
+                                    if typeof url == "string"
+                                        a(class="#{type}", href="#{url}", target='_blank')
+                                    else
+                                        each url2, subtype in url
+                                            a(class="#{type} #{subtype}", href="#{url2}", target='_blank')
+    
                 
         .arrows
             button.left.nav_left
             button.right.nav_right
+        
         .works-list-display
-            - var n = 0
-            while n < 9
-                .item.simple.frontend.graphic_design
-                    a.details(href="/portfolio/work/") beloesohoe.com
-                    a.url(href='http://beloesuhoe.com', target='_blank')
-                    span.scope | frontend, graphic design
-                .item.simple.frontend.graphic_design.awarded
-                    a.details(href="/portfolio/work/") beloesohoe.com
-                    a.url(href='http://beloesuhoe.com', target='_blank')
-                    span.scope | frontend, graphic design
-                .item.simple.frontend.graphic_design
-                    a.details(href="/portfolio/work/") beloesohoe.com
-                    a.url(href='http://beloesuhoe.com', target='_blank')
-                    span.scope | frontend, graphic design
-                .item.simple.graphic_design.awarded
-                    a.details(href="/portfolio/work/") beloesohoe.com
-                    a.url(href='http://beloesuhoe.com', target='_blank')
-                    span.scope | frontend, graphic design
-                - n++
-
+            each work in portfolio
+                .item.simple(class="#{work.tags.join(' ')}")
+                    a.details(href="/portfolio/#{work.alias}/") #{work.site_name}
+                    a.url(href="#{work.url}", target='_blank')
+                    span.scope | #{work.scope}
+    
     .controls
         .display-mode
             ul.list-type
@@ -75,7 +42,8 @@ section.screen#portfolio
                 li: button.filter-button.active(data-type='backend') backend
                 li: button.filter-button.active(data-type='architecture') architecture
                 li: button.filter-button.active(data-type='graphic_design') graphic design
-                li: button.filter-button.active(data-type='3d') 3d
+                li: button.filter-button.active(data-type='3d_modeling') 3d modeling
+                //-li: button.filter-button.active(data-type='3d') 3d
         .filter
             .title display only:
             ul.list

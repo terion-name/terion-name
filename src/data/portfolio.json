@@ -1,0 +1,265 @@
+[
+  {
+    "title": "Beloesuhoe",
+    "alias": "beloesuhoe",
+    "url": "http://beloesuhoe.com",
+    "site_name": "beloesuhoe.com",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design", "awarded"],
+    "awards": [
+      {"awwwards": {"hm": "http://www.awwwards.com/best-websites/beloesuhoe"}},
+      {"csswinner": {"sod": "http://www.csswinner.com/details/beloesuhoe/8075"}},
+      {"kiaf": "http://kiaf.com.ua/winners/e"},
+      {"fwa": "http://www.thefwa.com/shortlist/beloesuhoe"}
+    ],
+    "details": {
+      "about": "Video production site based on interactive video and photo environment",
+      "scope": "video and images processing, color correction, photomontage, frontend develop (backend is absent)",
+      "tech": "HTML5, video, JS, jQuery, SVG"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        {"video": "https://vimeo.com/111006628"}
+      ]
+    }
+  },
+  {
+    "title": "GARA",
+    "alias": "gara",
+    "url": "http://gara.com.ua",
+    "site_name": "gara.com.ua",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design", "3d_modeling", "awarded"],
+    "awards": [
+      {"awwwards": {"hm": "http://www.awwwards.com/best-websites/gara-store-website-2/"}},
+      {"csswinner": {"nominee": "http://www.csswinner.com/details/gara-store-website/8937"}}
+    ],
+    "details": {
+      "about": "Crazy site for crazy shop",
+      "scope": "video and images processing, complex graphics optimization, 3D modeling, frontend develop",
+      "tech": "HTML5, video, JS, jQuery, canvas"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg"
+      ]
+    }
+  },
+  {
+    "title": "Kresko",
+    "alias": "kresko",
+    "url": "http://kresko.ua",
+    "site_name": "kresko.ua",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design", "awarded"],
+    "awards": [
+      {"awwwards": {"hm": "http://www.awwwards.com/best-websites/kresko"}},
+      {"csswinner": {"nominee": "http://www.csswinner.com/details/kresko/7517"}}
+    ],
+    "details": {
+      "about": "Product page with smooth parallax",
+      "scope": "images processing, graphic design, frontend develop",
+      "tech": "HTML5, JS, jQuery, parallax"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        {"video": "https://www.youtube.com/watch?v=qHwOgSNemhU"}
+      ]
+    }
+  },
+  {
+    "title": "Lapa Tuki",
+    "alias": "lapa-tuki",
+    "url": "http://lapa-tuki.com",
+    "site_name": "lapa-tuki.com",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design", "3d_modeling", "awarded"],
+    "awards": [
+      {"cssdesignawards": {"sk": "http://www.cssdesignawards.com/sites/lapa-tuki-website/25950/"}},
+      {"csswinner": {"sod": "http://www.csswinner.com/details/lapa-tuki-website/8663"}}
+    ],
+    "details": {
+      "about": "Site for candies with interactive video background",
+      "scope": "video and images processing, 3D boxes visualization, frontend develop",
+      "tech": "HTML5, video, JS, jQuery"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        {"video": "https://www.youtube.com/watch?v=iczfZ2b7MMs"}
+      ]
+    }
+  },
+  {
+    "title": "HPPR",
+    "alias": "hppr",
+    "url": "http://hppr.com.ua",
+    "site_name": "hppr.com.ua",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "awarded"],
+    "awards": [
+      {"awwwards": {"hm": "http://www.awwwards.com/best-websites/hppr-agency"}},
+      {"csswinner": {"nominee": "http://www.csswinner.com/details/hppr-agency/7225"}}
+    ],
+    "details": {
+      "about": "Site for PR-agency with surprising video backgrounds",
+      "scope": "video processing, frontend develop",
+      "tech": "HTML5, video, JS, jQuery"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        "scr5.jpg",
+        {"video": "https://www.youtube.com/watch?v=7EPFSuGHczA"}
+      ]
+    }
+  },
+  {
+    "title": "Enjoy AIIA",
+    "alias": "aiia",
+    "url": "http://enjoy-aiia.com/",
+    "site_name": "enjoy-aiia.com",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design", "awarded"],
+    "awards": [
+      {"awwwards": {"hm": "http://www.awwwards.com/best-websites/aiia-7"}},
+      {"csswinner": {"nominee": "http://www.csswinner.com/details/aiia/5321"}},
+      {"fwa": "http://www.thefwa.com/shortlist/aiia"}
+    ],
+    "details": {
+      "about": "Promo for electronics manufacturer with complex parallax and other visual effects",
+      "scope": "complex graphics optimization, frontend develop",
+      "tech": "HTML5, canvas, svg, JS, jQuery, parallax"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.png",
+        "scr2.png",
+        "scr3.png",
+        "scr4.png",
+        {"video": "https://vimeo.com/70416734"}
+      ]
+    }
+  },
+  {
+    "title": "Kyivstar Mobile Money",
+    "alias": "mobilemoney",
+    "url": "https://money.kyivstar.ua/",
+    "site_name": "money.kyivstar.ua",
+    "scope": "frontend, backend, architecture",
+    "tags": ["frontend", "backend", "architecture", "highload"],
+    "details": {
+      "about": "Payment system website for national cellular operator",
+      "scope": "full stack development for first version, system architecture for second version",
+      "tech": "PHP, HTML5, JS, Redis, MySQL"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        {"video": "https://www.youtube.com/watch?v=yfaNiAKRitY"}
+      ]
+    }
+  },
+  {
+    "title": "Kyivstar Music Club",
+    "alias": "music-club",
+    "url": "http://musiclub.com.ua/",
+    "site_name": "musiclub.com.ua",
+    "scope": "architecture",
+    "tags": ["architecture", "highload"],
+    "details": {
+      "about": "Music streaming service for national cellular operator",
+      "scope": "system architecture and technical management (as CTO) until launch",
+      "tech": "PHP, Redis, MariaDB, MongoDB, EmberJS"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg"
+      ]
+    }
+  },
+  {
+    "title": "Honey Boney Boxes",
+    "alias": "boxes-hb2u",
+    "url": "http://boxes.hb2u.com.ua/",
+    "site_name": "boxes.hb2u.com.ua",
+    "scope": "frontend, graphic design",
+    "tags": ["frontend", "graphic_design"],
+    "details": {
+      "about": "Macaroons shop with fancy mechanics and 3D-effects",
+      "scope": "graphic design, frontend develop",
+      "tech": "HTML5, JS"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg"
+      ]
+    }
+  },
+  {
+    "title": "10 minutes for life",
+    "alias": "10minutes",
+    "url": "https://www.facebook.com/ARTERIUM.corp/app_410883212352520",
+    "site_name": "10 minutes for life",
+    "scope": "frontend",
+    "tags": ["frontend"],
+    "details": {
+      "about": "Facebook application that trains correct heart massage",
+      "scope": "frontend develop",
+      "tech": "HTML5, JS"
+    },
+    "media": {
+      "preview": "preview.jpg",
+      "fb": "fb.jpg",
+      "gallery": [
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        "scr5.jpg",
+        {"video": "https://vimeo.com/78548381"}
+      ]
+    }
+  }
+]

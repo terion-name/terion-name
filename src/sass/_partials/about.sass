@@ -1,18 +1,25 @@
 .screen#about
   background: #fff
-  padding-left: 25px
-  padding-right: 25px
   color: #000
   +middler
   white-space: nowrap
-  .col
+  .wrap
     display: inline-block
     vertical-align: middle
+    width: 100%
+    max-height: 100%
+    overflow: auto
+    padding-left: 25px
+    padding-right: 25px
+    +box-sizing(border-box)
+  .col
+    display: inline-block
+    vertical-align: top
     white-space: normal
     max-height: 100%
     overflow: auto
     +box-sizing(border-box)
-    padding: 0 15px
+    padding: 25px 15px
   .photo
     width: 40%
     overflow: visible

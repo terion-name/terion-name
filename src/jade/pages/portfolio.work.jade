@@ -2,31 +2,43 @@ extends ../layouts/main
 
 block menu
     +menu('portfolio')
+    
+block socials
+    meta(property="og:url", content="http://terion.name/portfolio/#{alias}")
+    meta(property="og:title", content="#{title}")
+    meta(property="og:description", content="#{details.about}")
+    meta(property="og:image", content="http://terion.name/img/portfolio/#{alias}/#{media.fb}")
 
+    
 block content
     section.screen#work
         .gallery
             .wraper
-                .slide.image(data-image="/img/portfolio/beloesuhoe/scr1.jpg")
-                .slide.image(data-image="/img/portfolio/beloesuhoe/scr1.jpg")
-                .slide.image(data-image="/img/portfolio/beloesuhoe/scr1.jpg")
-                .slide.image(data-image="/img/portfolio/beloesuhoe/scr1.jpg")
+                each item in media.gallery
+                    if item.video
+                        .slide.video(data-src="#{item.video}")
+                    else
+                        .slide.image(data-image="/img/portfolio/#{alias}/#{item}")
             .arrows
                 button.left
                 button.right
         .desc
+            button.hide
             a.back(href='/portfolio')
             h1
-                a.url(href='http://beloesuhoe.com', target='_blank') beloesohoe.com
-                span.scope | frontend, graphic design
+                a.url(href="#{url}", target='_blank') #{site_name}
+                span.scope | #{scope}
             p.details.
-                Video production site based on interactive video and photo environment
-                <br><strong>Detailed scope of work:</strong> video and images processing, color correction, photomontage,
-                frontend develop (backend is absent)
-                <br><strong>Tech:</strong> HTML5, video, JS, jQuery, SVG
-            +likes('/portfolio/beloesuhoe', true)
-            .awards
-                a.kiaf(href='#', target='_blank')
-                a.fwa(href='#', target='_blank')
-                a.csswinner.sod(href='#', target='_blank')
-                a.awwwards.hm(href='#', target='_blank')
+                #{details.about}
+                <br><strong>Detailed scope of work:</strong> #{details.scope}
+                <br><strong>Tech:</strong> #{details.tech}
+            +likes("/portfolio/" + alias, true)
+            if awards
+                .awards
+                    each award in awards
+                        each url, type in award
+                            if typeof url == "string"
+                                a(class="#{type}", href="#{url}", target='_blank')
+                            else
+                                each url2, subtype in url
+                                    a(class="#{type} #{subtype}", href="#{url2}", target='_blank')

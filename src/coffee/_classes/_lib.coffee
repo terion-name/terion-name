@@ -99,3 +99,40 @@ trim = (str, charlist) ->
   charlist = if !charlist then ' s ' else charlist.replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1')
   re = new RegExp('^[' + charlist + ']+|[' + charlist + ']+$', 'g')
   str.replace re, ''
+
+
+getQueryParams = (queryString)->
+  assoc = {}
+
+  decode = (s) -> decodeURIComponent s.replace(/\+/g, ' ')
+
+  queryString = location.search.substring(1) unless queryString
+  keyValues = queryString.split('&')
+  for i of keyValues
+    key = keyValues[i].split('=')
+    if key.length > 1
+      assoc[decode(key[0])] = decode(key[1])
+  assoc
+
+
+transitionEndEventName = ->
+  el = document.createElement('div')
+  transitions =
+    'transition': 'transitionend'
+    'OTransition': 'otransitionend'
+    'MozTransition': 'transitionend'
+    'WebkitTransition': 'webkitTransitionEnd'
+  for i of transitions
+    if transitions.hasOwnProperty(i) and el.style[i] != undefined
+      return transitions[i]
+  #TODO: throw 'TransitionEnd event is not supported in this browser'; 
+  return
+
+once = (node, type, callback)->
+  # create event
+  node.addEventListener type, (e) ->
+    # remove event
+    e.target.removeEventListener e.type, arguments.callee
+    # call handler
+    callback e
+  return

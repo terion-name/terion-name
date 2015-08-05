@@ -3,10 +3,14 @@
   .gallery
     position: absolute
     width: 100%
-    height: 100%
+    height: calc(100% - 55px)
     left: 0
-    top: 0
+    top: 55px
     background: #777
+    +transition(top 0.3s $easeOutQuad)
+    &.hidden
+      top: -100%
+      +transition(top 0.3s $easeOutQuad)
     .slide
       position: absolute
       width: 100%
@@ -21,6 +25,9 @@
           position: center
           repeat: no-repeat
           size: cover
+      .video_iframe
+        width: 100%
+        height: calc(100% - 15px)!important
     .arrows
       position: absolute
       width: 100%
@@ -54,10 +61,29 @@
     height: auto
     padding: 25px 25px 25px 55px
     +box-sizing(border-box)
-    background: #fff
+    background: rgba(255, 255, 255, 0.8)
     color: #000
+    +transition(transform 0.3s $easeOutQuad)
+    .hide
+      position: absolute
+      left: 50%
+      top: 0
+      width: 0
+      height: 0
+      background: none
+      padding: 0
+      border: 15px solid #777
+      border-right-color: transparent
+      border-left-color: transparent
+      border-bottom-width: 0
     &.hidden
-
+      +transform(translateY(calc(100% - 15px)))
+      +transition(transform 0.3s $easeOutQuad)
+      &.fully
+        +transform(translateY(100%))
+      .hide
+        border-bottom-width: 15px
+        border-top-width: 0
     h1
       font-size: 1em
       margin: 0

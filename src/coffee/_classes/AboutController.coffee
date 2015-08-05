@@ -2,6 +2,7 @@ class AboutController
 
   constructor: (@container)->
     @employmentExpander = @container.getElementsByClassName('employment_expand')[0]
+    @wraper = @container.getElementsByClassName('wrap')[0]
     
     @init()
     @bind()
@@ -23,6 +24,11 @@ class AboutController
         @expandEmployment()
         @employmentExpander.innerText = 'show less'
         addClass @employmentExpander, 'expanded'
+
+    @wraper.addEventListener 'wheel', (e)=>
+      if @wraper.scrollHeight > @wraper.offsetHeight
+        if (e.deltaY < 0 and (@wraper.scrollTop > 0)) or (e.deltaY > 0 and (@wraper.scrollTop < @wraper.scrollHeight - @wraper.offsetHeight))
+          e.stopPropagation()
       
   expandEmployment: ->
     currentLi = @employmentExpander.parentNode

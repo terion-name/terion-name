@@ -9,6 +9,7 @@ class WorkController
     @buttonRight = @gallery.getElementsByClassName('right')[0]
     @buttonLeft = @gallery.getElementsByClassName('left')[0]
     @desc = @container.getElementsByClassName('desc')[0]
+    @descHider = @desc.getElementsByClassName('hide')[0]
     @back = @container.getElementsByClassName('back')[0]
 
     @init()
@@ -45,41 +46,33 @@ class WorkController
       return if @animating
       @galleryPrev()
 
+    @descHider.addEventListener 'click', (e)=>
+      if hasClass(@desc, 'hidden')
+        removeClass(@desc, 'hidden')
+      else
+        addClass(@desc, 'hidden')
+        removeClass(@desc, 'hidden-temp')
 
   appear: (callback)->
-    @gallery.style.top = '-100%'
-
     @animStarted()
-    Velocity @desc, {
-      translateY: [0, '100%']
-    }, {
-      duration: @transitionDuration
-      easing: 'easeOutQuad'
-      complete: =>
-        Velocity @gallery, {top: 0}, {duration: @transitionDuration, easing: 'easeOutQuad', complete: => 
-          @animEnded()
-          callback(this) if callback
-        }
-    }
+    once @desc, window._transitionEndEventName, (e)=>
+      once @gallery, window._transitionEndEventName, (e)=>
+        @animEnded()
+        @desc.style.transform = @desc.style.WebkitTransform = ''
+        callback(this) if callback
+      removeClass @gallery, 'hidden'
+    removeClass @desc, 'hidden'
 
   disappear: ->
     @animStarted()
-    Velocity @desc, {
-      translateY: '100%'
-    }, {
-      duration: @transitionDuration
-      easing: 'easeOutQuad'
-      complete: =>
-        Velocity @gallery, {
-          top: '-100%'
-        }, {
-          duration: @transitionDuration
-          easing: 'easeOutQuad'
-          complete: =>
-            @container.parentNode.removeChild @container
-            @animEnded()
-        }
-    }
+    once @desc, window._transitionEndEventName, (e)=>
+      once @gallery, window._transitionEndEventName, (e)=>
+        @container.parentNode.removeChild @container
+        @animEnded()
+      addClass @gallery, 'hidden'
+    addClass @desc, 'fully'
+    addClass @desc, 'hidden'
+      
 
   galleryNext: ->
     return if @animating
@@ -90,12 +83,15 @@ class WorkController
   galleryPrev: ->
     return if @animating
     nextSlide = @currentSlide - 1
-    nextSlide = @slides.length - 1 if nextSlide <= 0
+    nextSlide = @slides.length - 1 if nextSlide < 0
     @galleryMove nextSlide, true
 
   galleryMove: (slide, toLeft)->
     cur = @slides[@currentSlide]
     next = @slides[slide]
+
+    cur.pause() if cur.player?
+    
     @loadSlide next
     @animStarted()
     Velocity cur, { left: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
@@ -107,15 +103,95 @@ class WorkController
     @currentSlide = slide
 
   loadSlide: (slide)->
-    unless slide.style.backgroundImage
-      imageSrc = slide.getAttribute('data-image')
-      img = new Image
-      img.onload = ((slide)->->
-        slide.loader?.stop()
-        slide.style.backgroundImage = "url('#{this.src}')"
-      )(slide)
-      img.src = imageSrc
     
+    if hasClass slide, 'video'
+      unless hasClass @desc, 'hidden'
+        addClass @desc, 'hidden'
+        addClass @desc, 'hidden-temp'
+    else if hasClass @desc, 'hidden-temp'
+      removeClass @desc, 'hidden'
+      removeClass @desc, 'hidden-temp'
+
+    return if slide.loaded
+    
+    if hasClass slide, 'image' 
+        imageSrc = slide.getAttribute('data-image')
+        img = new Image
+        img.onload = ((slide)->->
+          slide.loader?.stop()
+          slide.style.backgroundImage = "url('#{this.src}')"
+        )(slide)
+        img.src = imageSrc
+        slide.loaded = true
+    else if hasClass slide, 'video'
+      videoSrc = slide.getAttribute('data-src')
+      parser = document.createElement 'a'
+      parser.href = videoSrc
+      if videoSrc.search('vimeo') > 0
+        videoId = trim parser.pathname, '/'
+        @loadVideoVimeo videoId, slide
+      else
+        query = trim parser.search, '?'
+        params = getQueryParams query
+        videoId = params.v
+        @loadVideoYoutube videoId, slide
+
+  loadVideoYoutube: (videoId, slide)->
+    render = ->
+      slide.innerHTML = '<div class="video_iframe"></div>'
+      player = new YT.Player(slide.getElementsByClassName('video_iframe')[0], {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        rel: 0,
+        events:
+          onReady: ->
+            slide.loaded = true
+            slide.loader?.stop()
+      })
+      slide.player = player
+      slide.pause = -> slide.player.pauseVideo()
+      
+    unless YT?
+      p = if /^http:/.test(window.location) then 'http' else 'https'
+      tag = document.createElement('script')
+      tag.src = p + "://www.youtube.com/iframe_api"
+      firstScriptTag = document.getElementsByTagName('script')[0]
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+      window.onYouTubeIframeAPIReady = -> 
+        render()
+    else
+      render()
+      
+  loadVideoVimeo: (videoId, slide)->
+    render = ->
+      iframeSrc = "https://player.vimeo.com/video/#{videoId}?color=ffffff&title=0&byline=0&portrait=0&api=1"
+      iframe = document.createElement('iframe')
+      iframe.className = 'video_iframe'
+      iframe.src = iframeSrc
+      iframe.frameBorder = 0
+      iframe.setAttribute 'webkitAllowFullScreen', ''
+      iframe.setAttribute 'mozAllowFullScreen', ''
+      iframe.setAttribute 'allowFullScreen', ''
+      slide.appendChild iframe
+      player = Froogaloop iframe
+      slide.player = player
+      slide.pause = -> slide.player.api('pause')
+      player.addEvent 'ready', ->
+        slide.loader?.stop()
+        slide.loaded = true
+        
+    unless Froogaloop?
+      p = if /^http:/.test(window.location) then 'http' else 'https'
+      tag = document.createElement('script')
+      tag.onload = -> render()
+      tag.src = p + "://f.vimeocdn.com/js/froogaloop2.min.js"
+      firstScriptTag = document.getElementsByTagName('script')[0]
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+    else
+      render()
+    
+      
   animStarted: ->
     @animating = true
     addClass document.body, 'disable-hover'
