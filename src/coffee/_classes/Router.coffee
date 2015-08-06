@@ -19,6 +19,10 @@ class Router
   init: ->
     @container.style.overflow = 'hidden'
     @container.scrollTop = 0
+    addClass @container, 'js-inited'
+    for scr in @screens
+      scr.style.display = 'none'
+    @screens[@screen].style.display = 'block'
 
       
   bind: ->
@@ -26,11 +30,11 @@ class Router
       sceen.addEventListener 'wheel', ((index)=>(e)=>
         return if @animating
         if e.deltaY > 0 and (@body.scrollTop >= @body.scrollHeight - window.innerHeight)
+          e.preventDefault()
           if index < @screens.length - 1 then @loadScreen({index: index+1}, null, true) 
         else if e.deltaY < 0 and (@body.scrollTop == 0)
+          e.preventDefault()
           if index > 0 then @loadScreen({index: index-1}, null, true))(index)
-        
-    window.addEventListener 'resize', => @adjustScreen()
 
     window.addEventListener 'popstate', ((e)=>
       if e.state
@@ -42,47 +46,52 @@ class Router
         
   goto: (scr, transition, callback, noPopState)->
     return if @animating
-    @animStarted()
-    Velocity @screens[scr], 'scroll',
-      container: @container
-      duration: if transition? then transition else @transitionDuration * Math.abs(scr - @screen)
-      easing: 'easeOutQuad'
-      complete: =>
-        setTimeout (=>
-          @animEnded()
-          callback(scr) if callback
-          @onScreenChange(scr) if @onScreenChange
-          @screens[scr].controller?.setup?()
-        ), 10
-        
-    if @screen != scr
-      if scr > @screen
-        @screens[scr].style.top = '-75%'
-        shadowed = @screens[scr-1]
-      else
-        @screens[scr].style.top = '75%'
-        shadowed = @screens[scr+1]
-        
-      @screens[scr].style.zIndex = 10
-      shadowed.style.zIndex = 20
+    @animStarted() unless transition == 0
 
-      Velocity shadowed, { translateZ: 0, boxShadowBlur: [0, 100], boxShadowSpread: [0, 25] },
+    if @screen != scr
+      targetScreen = @screens[scr]
+      currentScreen = @screens[@screen]
+
+      currentScreen.style.zIndex = 20
+      targetScreen.style.zIndex = 10
+
+      if scr < @screen
+        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '-25%'], scale: [1, 'easeInExpo', 0.95] }
+        currentScreenAnim =
+          translateZ: 0
+          translateY: ['100%', 'easeOutQuad', 0]
+          boxShadowBlur: [0, 'easeInExpo', 100]
+          boxShadowSpread: [0, 'easeInExpo', 25]
+      else
+        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '25%'], scale: [1, 'easeInExpo', 0.95] }
+        currentScreenAnim =
+          translateZ: 0
+          translateY: ['-100%', 'easeOutQuad', 0]
+          boxShadowBlur: [0, 'easeInExpo', 100]
+          boxShadowSpread: [0, 'easeInExpo', 25]
+
+      Velocity currentScreen, currentScreenAnim,
         queue: false
-        duration: if transition? then transition else @transitionDuration * Math.abs(scr - @screen)
-        easing: 'easeInExpo'
-      
-      Velocity @screens[scr], { translateZ: 0, top: 0, scale: [1, 'easeInExpo', 0.95] },
+        duration: if transition? then transition else @transitionDuration
+        display: 'none'
+          
+      Velocity targetScreen, targetScreenAnim,
         queue: false
-        container: @container
-        duration: if transition? then transition else @transitionDuration * Math.abs(scr - @screen)
-        easing: 'easeOutQuad'
+        duration: if transition? then transition else @transitionDuration
+        display: 'block'
         complete: =>
-          @screens[scr].style.zIndex = ''
-          @screens[@screen].style.zIndex = ''
-      
+          setTimeout (=>
+            targetScreen.controller?.setup?()
+            @animEnded()
+            callback(scr) if callback
+            @onScreenChange(scr) if @onScreenChange
+          ), 10
       @screen = scr
-      window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}") unless noPopState
+    else
+      callback(scr) if callback
+      @animEnded()
       
+    window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}") unless noPopState
     window.siteHeader.homeMode(scr == 0)
     
   loadScreen: (opts, transition, pushstate)->
@@ -130,12 +139,6 @@ class Router
       opts.work = '/portfolio/' + path[1]
     @loadScreen opts, 0
     
-    
-  adjustScreen: (transition)->
-    if transition
-      @goto @screen, transition
-    else
-      @container.scrollTop = @screen * @container.offsetHeight
     
   animStarted: ->
     @animating = true

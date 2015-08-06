@@ -21,7 +21,7 @@ window.appInit = ->
     if globalLoader
       addClass globalLoader, 'hide'
       setTimeout (-> globalLoader.parentNode.removeChild(globalLoader)), 1000
-  ), 300
+  ), 1000
   
 
 window.router = new Router document.getElementById 'container'

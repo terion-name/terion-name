@@ -36,6 +36,7 @@ class PortfolioController
       loader.start()
       it.loader = loader
       @items.push it
+      item.style.visibility = 'hidden'
       
     for item in @listView.getElementsByClassName('item')
       @listViewItems.push new PortfolioItem item, @worksWraper, @container
@@ -48,7 +49,7 @@ class PortfolioController
   bind: ->
     window.addEventListener 'resize', =>
       @adaptWraper()
-      @arrange()
+      @arrange(0)
       @checkArrows()
 
     for controlButton in @controlButtons
@@ -71,13 +72,20 @@ class PortfolioController
     return if @setuped
     
     for item in @items
+      item.item.style.visibility = 'hidden'
       imageSrc = item.item.getAttribute('data-preview')
       img = new Image
       img.onload = ((item)->->
           item.loader?.stop()
           item.item.style.backgroundImage = "url('#{this.src}')"
+          Velocity item.item, 'fadeIn', {duration: 200}
+          item.item.style.visibility = 'visible'
       )(item)
       img.src = imageSrc
+
+    @adaptWraper()
+    @arrange(0)
+    @checkArrows()
     @setuped = true
     
   getVisibleItems: ->
