@@ -34,6 +34,7 @@ class HomeController
   scrollerAnimate: ->
     arrow = @scroller.getElementsByTagName('img')[0]
     Velocity arrow, {
+      translateZ: 0
       top: ['50%', 0]
     }, {
       duration: 750

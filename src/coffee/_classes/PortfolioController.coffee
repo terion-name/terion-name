@@ -122,7 +122,7 @@ class PortfolioController
 
   navItems: (moveOn, toLeft)->
     @animStarted()
-    Velocity @worksWraper, { marginLeft: "#{if toLeft then '+' else '-'}=#{moveOn}px" },
+    Velocity @worksWraper, { translateZ: 0, marginLeft: "#{if toLeft then '+' else '-'}=#{moveOn}px" },
       easing: 'easeOutQuad'
       complete: =>
         @checkArrows()
@@ -208,7 +208,7 @@ class PortfolioController
 
       if multicondition and exclusivecondition
         removeClass node, 'hide'
-        Velocity node, { scale: 1 },
+        Velocity node, { translateZ: 0, scale: 1 },
           duration: @transitionTime
           display: 'auto'
           queue: false
@@ -216,7 +216,7 @@ class PortfolioController
           complete: => setTimeout (=> @animEnded()), 10
       else
         addClass node, 'hide'
-        Velocity node, { scale: 0 },
+        Velocity node, { translateZ: 0, scale: 0 },
           duration: @transitionTime
           display: 'none'
           queue: false
@@ -274,7 +274,7 @@ class PortfolioController
     return if @animating or @listOverlay
     @animStarted()
     @listOverlay = true
-    Velocity @listView, { top: 0 },
+    Velocity @listView, { translateZ: 0, top: 0 },
       duration: @transitionTime
       easing: 'easeOutQuad'
       display: 'block'
@@ -284,7 +284,7 @@ class PortfolioController
     return if @animating or not @listOverlay
     @listOverlay = false
     @animStarted()
-    Velocity @listView, { top: '-100%' },
+    Velocity @listView, { translateZ: 0, top: '-100%' },
       duration: @transitionTime
       easing: 'easeOutQuad'
       display: 'none'

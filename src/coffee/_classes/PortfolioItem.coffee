@@ -39,6 +39,7 @@ class PortfolioItem
       @item.style.height = @height + 'px'
     else
       Velocity @item, {
+        translateZ: 0
         left: left + 'px'
         top: top + 'px'
         width: @width + 'px'
@@ -73,11 +74,11 @@ class PortfolioItem
         @workContainer.appendChild work
         workCntrl = new WorkController work
 
-        for s in work.getElementsByTagName('script')
-          eval s.innerHTML
 
         setTimeout (->
           workCntrl.appear (w)->
+            for s in work.getElementsByTagName('script')
+              eval s.innerHTML
             FB?.XFBML.parse w.container
             twttr?.widgets.load()
         ), 50

@@ -51,6 +51,7 @@ class Router
         setTimeout (=>
           @animEnded()
           callback(scr) if callback
+          @onScreenChange(scr) if @onScreenChange
           @screens[scr].controller?.setup?()
         ), 10
         
@@ -65,12 +66,12 @@ class Router
       @screens[scr].style.zIndex = 10
       shadowed.style.zIndex = 20
 
-      Velocity shadowed, { boxShadowBlur: [0, 100], boxShadowSpread: [0, 25] },
+      Velocity shadowed, { translateZ: 0, boxShadowBlur: [0, 100], boxShadowSpread: [0, 25] },
         queue: false
         duration: if transition? then transition else @transitionDuration * Math.abs(scr - @screen)
         easing: 'easeInExpo'
       
-      Velocity @screens[scr], { top: 0, scale: [1, 'easeInExpo', 0.95] },
+      Velocity @screens[scr], { translateZ: 0, top: 0, scale: [1, 'easeInExpo', 0.95] },
         queue: false
         container: @container
         duration: if transition? then transition else @transitionDuration * Math.abs(scr - @screen)
@@ -78,10 +79,8 @@ class Router
         complete: =>
           @screens[scr].style.zIndex = ''
           @screens[@screen].style.zIndex = ''
-
       
       @screen = scr
-      @onScreenChange(scr) if @onScreenChange
       window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}") unless noPopState
       
     window.siteHeader.homeMode(scr == 0)

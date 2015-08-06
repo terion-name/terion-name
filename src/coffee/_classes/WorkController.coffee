@@ -29,7 +29,6 @@ class WorkController
       @buttonRight.style.display = 'none'
       @buttonLeft.style.display = 'none'
 
-    @loadSlide @slides[@currentSlide]
 
   bind: ->
     @back.addEventListener 'click', (e)=>
@@ -55,23 +54,29 @@ class WorkController
 
   appear: (callback)->
     @animStarted()
-    once @desc, window._transitionEndEventName, (e)=>
-      once @gallery, window._transitionEndEventName, (e)=>
-        @animEnded()
-        @desc.style.transform = @desc.style.WebkitTransform = ''
-        callback(this) if callback
-      removeClass @gallery, 'hidden'
-    removeClass @desc, 'hidden'
+    setTimeout (=>
+      removeClass @desc, 'hidden'
+      once @desc, window._transitionEndEventName, (e)=>
+        removeClass @gallery, 'hidden'
+        once @gallery, window._transitionEndEventName, (e)=>
+          @loadSlide @slides[@currentSlide]
+          @animEnded()
+          @desc.style.transform = @desc.style.WebkitTransform = ''
+          callback(this) if callback
+    ), 25
+
 
   disappear: ->
     @animStarted()
-    once @desc, window._transitionEndEventName, (e)=>
-      once @gallery, window._transitionEndEventName, (e)=>
-        @container.parentNode.removeChild @container
-        @animEnded()
-      addClass @gallery, 'hidden'
-    addClass @desc, 'fully'
-    addClass @desc, 'hidden'
+    setTimeout (=>
+      addClass @desc, 'fully'
+      addClass @desc, 'hidden'
+      once @desc, window._transitionEndEventName, (e)=>
+        addClass @gallery, 'hidden'
+        once @gallery, window._transitionEndEventName, (e)=>
+          @container.parentNode.removeChild @container
+          @animEnded()
+    ), 25
       
 
   galleryNext: ->
@@ -92,14 +97,52 @@ class WorkController
 
     cur.pause() if cur.player?
     
-    @loadSlide next
     @animStarted()
-    Velocity cur, { left: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
-      duration: @transitionDuration * 2, display: 'none'
-    }
-    Velocity next, { left: [0, 'easeOutQuad', "#{if toLeft then '-' else ''}100%"], scale: [1, 'easeInExpo', 0.8] }, {
-      duration: @transitionDuration * 2, display: 'block', complete: => @animEnded()
-    }
+    
+    # debug
+    cssAnim = true
+    
+    if cssAnim
+      removeClass cur, 'animated_out'
+      removeClass cur, 'animated_in'
+      cur.style.left = 0
+      cur.style.transform = "scale(1) translateZ(0)"
+      cur.style.WebkitTransform = "scale(1) translateZ(0)"
+  
+      setTimeout (=>
+        addClass cur, 'animated_out'
+        once cur, window._transitionEndEventName, (e)=> cur.style.display = "none"
+        cur.style.transform = "scale(0.8) translateZ(0)"
+        cur.style.WebkitTransform = "scale(0.8) translateZ(0)"
+        cur.style.left = "#{if toLeft then '' else '-'}100%"
+      ), 25
+  
+      removeClass next, 'animated_in'
+      removeClass next, 'animated_out'
+      next.style.left = "#{if toLeft then '-' else ''}100%"
+      next.style.transform = "scale(0.8) translateZ(0)"
+      next.style.WebkitTransform = "scale(0.8) translateZ(0)"
+      next.style.display = "block"
+      
+      setTimeout (=>
+        addClass next, 'animated_in'
+        once next, window._transitionEndEventName, (e)=> 
+          @animEnded()
+          @loadSlide next
+        next.style.left = 0
+        next.style.transform = "scale(1) translateZ(0)"
+        next.style.WebkitTransform = "scale(1) translateZ(0)"
+      ), 25
+
+    else
+      Velocity cur, { translateZ: 0, translateX: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
+        duration: @transitionDuration * 2, display: 'none'
+      }
+      Velocity next, { translateZ: 0, translateX: [0, 'easeOutQuad', "#{if toLeft then '-' else ''}100%"], scale: [1, 'easeInExpo', 0.8] }, {
+        duration: @transitionDuration * 2, display: 'block', complete: => 
+          @animEnded()
+          @loadSlide next
+      }
     @currentSlide = slide
 
   loadSlide: (slide)->

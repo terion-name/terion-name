@@ -42,11 +42,11 @@ html(lang="en")
                         '<img class="inner" src="/img/loader_inner.svg">' +
                         '</div>'
                 document.body.appendChild(globalLoader)
+        #header.home
+            img.logo(src='/img/logo.svg', alt='Terion', title='Terion')
+            +likes('/')
+            block menu
+                +menu('home')
         #container
-            #header.home
-                img.logo(src='/img/logo.svg', alt='Terion', title='Terion')
-                +likes('/')
-                block menu
-                    +menu('home')
             block content
         script(src="/js/scripts.js")
