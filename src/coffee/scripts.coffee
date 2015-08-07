@@ -23,5 +23,5 @@ window.appInit = ->
       setTimeout (-> globalLoader.parentNode.removeChild(globalLoader)), 1000
   ), 1000
   
-
-window.router = new Router document.getElementById 'container'
+unless document.getElementById 'oldie'
+  window.router = new Router document.getElementById 'container'

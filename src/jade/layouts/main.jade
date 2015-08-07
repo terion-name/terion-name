@@ -30,18 +30,26 @@ html(lang="en")
         +vk_init(5013791)
 
     body
+        <!--[if lte IE 9]>
+        style.
+            body { overflow: hidden }
+        .oldie#oldie
+            .txt Your browser is too old, outdated and insecure.<br>Please update
+        <![endif]-->
+        
         +facebook_init(800918833348791)
         
         script
             :coffee-script
-                globalLoader = document.createElement 'div'
-                globalLoader.className = 'global_loader'
-                globalLoader.id = 'global_loader'
-                globalLoader.innerHTML = '<div class="loader_widget">' +
-                        '<img class="outer" src="/img/loader_outer.svg">' +
-                        '<img class="inner" src="/img/loader_inner.svg">' +
-                        '</div>'
-                document.body.appendChild(globalLoader)
+                unless document.getElementById 'oldie'
+                    globalLoader = document.createElement 'div'
+                    globalLoader.className = 'global_loader'
+                    globalLoader.id = 'global_loader'
+                    globalLoader.innerHTML = '<div class="loader_widget">' +
+                            '<img class="outer" src="/img/loader_outer.svg">' +
+                            '<img class="inner" src="/img/loader_inner.svg">' +
+                            '</div>'
+                    document.body.appendChild(globalLoader)
         #header.home
             img.logo(src='/img/logo.svg', alt='Terion', title='Terion')
             +likes('/')
