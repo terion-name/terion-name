@@ -164,13 +164,13 @@ class WorkController
 
     else
       Velocity cur, { translateZ: 0, translateX: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
-        duration: @transitionDuration * 2, complete: -> 
-          cur.setAttribute 'style', ''
+        duration: @transitionDuration * 2, complete: ->
           cur.style.display = 'none'
+          cur.style.transform = cur.style.WebkitTransform = ''
       }
       Velocity next, { translateZ: 0, translateX: [0, 'easeOutQuad', "#{if toLeft then '-' else ''}100%"], scale: [1, 'easeInExpo', 0.8] }, {
         duration: @transitionDuration * 2, display: 'block', complete: =>
-          next.setAttribute 'style', ''
+          next.style.transform = cur.style.WebkitTransform = ''
           @animEnded()
           @loadSlide next
       }
