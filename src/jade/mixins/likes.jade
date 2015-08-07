@@ -8,18 +8,24 @@ mixin likes(url, inverted)
             .holder like
             .container
                 .vk-like
-                script(type='text/javascript').
-                    (function () {
-                        var likers = document.getElementsByClassName('vk-like');
-                        for (var i = 0; i < likers.length; i++) {
-                            var liker = likers[i];
-                            if (!liker.getAttribute('id')) {
-                                var randomId = 'vk_like_' + Math.ceil(Math.random() * Math.random() * 10000);
-                                liker.setAttribute('id', randomId);
-                                VK.Widgets.Like(randomId, {height: 20, locale: 'en_US'});
-                            }
-                        }
-                    })();
+                script(type='text/javascript')
+                    :coffee-script
+                        do ->
+                            likers = document.getElementsByClassName('vk-like')
+                            if VK?
+                                i = 0
+                                while i < likers.length
+                                    liker = likers[i]
+                                    if !liker.getAttribute('id')
+                                        randomId = 'vk_like_' + Math.ceil(Math.random() * Math.random() * 10000)
+                                        liker.setAttribute 'id', randomId
+                                        VK.Widgets.Like randomId,
+                                            height: 20
+                                            locale: 'en_US'
+                                    i++
+                            else
+                                for like in likers
+                                    like.style.display = 'none'
 
         .tw
             .holder tweet

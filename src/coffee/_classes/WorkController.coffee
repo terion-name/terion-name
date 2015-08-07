@@ -54,30 +54,57 @@ class WorkController
 
   appear: (callback)->
     @animStarted()
-    setTimeout (=>
-      removeClass @desc, 'hidden'
-      once @desc, window._transitionEndEventName, (e)=>
+    removeClass @desc, 'hidden'
+    Velocity @desc, {
+      translateZ: 0
+      translateY: [0, '100%']
+    }, {
+      duration: @transitionDuration
+      easing: 'easeOutQuad'
+      display: 'block'
+      complete: =>
+        @desc.style.transform = @desc.style.WebkitTransform = ''
         removeClass @gallery, 'hidden'
-        once @gallery, window._transitionEndEventName, (e)=>
-          @loadSlide @slides[@currentSlide]
-          @animEnded()
-          @desc.style.transform = @desc.style.WebkitTransform = ''
-          callback(this) if callback
-    ), 25
-
+        Velocity @gallery, {
+          translateZ: 0
+          translateY: [0, '-100%']
+        }, {
+          duration: @transitionDuration
+          easing: 'easeOutQuad'
+          display: 'block'
+          complete: =>
+            @gallery.style.transform = @gallery.style.WebkitTransform = ''
+            setTimeout (=>
+              @loadSlide @slides[@currentSlide]
+              addClass @desc, 'anim'
+              @animEnded()
+              callback(this) if callback
+            ), 25
+          }
+    }
+    
 
   disappear: ->
     @animStarted()
-    setTimeout (=>
-      addClass @desc, 'fully'
-      addClass @desc, 'hidden'
-      once @desc, window._transitionEndEventName, (e)=>
-        addClass @gallery, 'hidden'
-        once @gallery, window._transitionEndEventName, (e)=>
-          @container.parentNode.removeChild @container
-          @animEnded()
-    ), 25
-      
+    removeClass @desc, 'anim'
+    Velocity @gallery, {
+        translateZ: 0
+        translateY: ['-100%', 0]
+      },
+      duration: @transitionDuration
+      easing: 'easeOutQuad'
+      display: 'none'
+      complete: =>
+        Velocity @desc, {
+          translateZ: 0
+          translateY: ['100%', 0]
+        },
+          duration: @transitionDuration
+          easing: 'easeOutQuad'
+          display: 'none'
+          complete: =>
+            @container.parentNode.removeChild @container
+            @animEnded()
 
   galleryNext: ->
     return if @animating
@@ -99,8 +126,9 @@ class WorkController
     
     @animStarted()
     
-    # debug
-    cssAnim = true
+    # let this be for future experiments
+    # at the moment css animations are too unreliable
+    cssAnim = false
     
     if cssAnim
       removeClass cur, 'animated_out'
@@ -136,10 +164,13 @@ class WorkController
 
     else
       Velocity cur, { translateZ: 0, translateX: ["#{if toLeft then '' else '-'}100%", 'easeOutQuad', 0], scale: [0.8, 'easeOutExpo', 1] }, {
-        duration: @transitionDuration * 2, display: 'none'
+        duration: @transitionDuration * 2, complete: -> 
+          cur.setAttribute 'style', ''
+          cur.style.display = 'none'
       }
       Velocity next, { translateZ: 0, translateX: [0, 'easeOutQuad', "#{if toLeft then '-' else ''}100%"], scale: [1, 'easeInExpo', 0.8] }, {
-        duration: @transitionDuration * 2, display: 'block', complete: => 
+        duration: @transitionDuration * 2, display: 'block', complete: =>
+          next.setAttribute 'style', ''
           @animEnded()
           @loadSlide next
       }

@@ -14,6 +14,7 @@ section.screen#portfolio
 
   .grid
     .wraper
+      +transform(translateZ(0))
       .item
         overflow: hidden
         position: relative
@@ -30,6 +31,7 @@ section.screen#portfolio
         -webkit-filter: grayscale(100%)
         filter: grayscale(100%)
         +transition(filter 0.5s, -webkit-filter 0.5s)
+        +transform(translateZ(0))
         .details
           position: absolute
           width: 100%

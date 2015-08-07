@@ -69,24 +69,31 @@ class PortfolioController
     @goLeft.addEventListener 'click', (e)=> @navLeft()
 
   setup: ->
-    return if @setuped
-    
-    for item in @items
-      item.item.style.visibility = 'hidden'
-      imageSrc = item.item.getAttribute('data-preview')
-      img = new Image
-      img.onload = ((item)->->
-          item.loader?.stop()
-          item.item.style.backgroundImage = "url('#{this.src}')"
-          Velocity item.item, 'fadeIn', {duration: 200}
-          item.item.style.visibility = 'visible'
-      )(item)
-      img.src = imageSrc
-
-    @adaptWraper()
-    @arrange(0)
-    @checkArrows()
-    @setuped = true
+    if @setuped
+      for item in @items
+        Velocity item.item, 'fadeIn', {duration: 200}
+      setTimeout (=>
+        @adaptWraper()
+        @arrange(0)
+        @checkArrows()
+      ), 5
+      
+      
+    else
+      for item in @items
+        imageSrc = item.item.getAttribute('data-preview')
+        img = new Image
+        img.onload = ((item)->->
+            item.loader?.stop()
+            item.item.style.backgroundImage = "url('#{this.src}')"
+        )(item)
+        img.src = imageSrc
+        Velocity item.item, 'fadeIn', {duration: 200}
+        item.item.style.visibility = 'visible'
+      @adaptWraper()
+      @arrange(0)
+      @checkArrows()
+      @setuped = true
     
   getVisibleItems: ->
     visibleItems = []
@@ -298,6 +305,10 @@ class PortfolioController
       display: 'none'
       complete: => @animEnded()
 
+  unload: ->
+    for item in @items
+      item.item.style.display = 'none'
+      
   animStarted: ->
     @animating = true
     addClass document.body, 'disable-hover'

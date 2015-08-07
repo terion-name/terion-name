@@ -136,7 +136,9 @@ section.screen
   font-size: 14px
   line-height: 13px
   .container
-    display: none
+    //display: none
+    //visibility: hidden
+    +opacity(0)
     width: 100px
     left: 0
     top: -2px
@@ -163,6 +165,7 @@ section.screen
         display: none
       .container
         display: block
+        +opacity(1)
   .fb
     padding-left: 12px
     background-image: url("../img/soc/fb.svg")

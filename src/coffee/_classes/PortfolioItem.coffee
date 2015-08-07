@@ -64,8 +64,8 @@ class PortfolioItem
       else
         parser = new DOMParser()
         doc = parser.parseFromString(text, "text/html");
-        addClass doc.getElementsByClassName('desc')[0], 'hidden'
-        addClass doc.getElementsByClassName('gallery')[0], 'hidden'
+        doc.getElementsByClassName('desc')[0].style.display = 'none'
+        doc.getElementsByClassName('gallery')[0].style.display = 'none'
 
         work = document.createElement 'div'
         work.className = 'work_overlay'
@@ -74,14 +74,11 @@ class PortfolioItem
         @workContainer.appendChild work
         workCntrl = new WorkController work
 
-
-        setTimeout (->
-          workCntrl.appear (w)->
-            for s in work.getElementsByTagName('script')
-              eval s.innerHTML
-            FB?.XFBML.parse w.container
-            twttr?.widgets.load()
-        ), 50
+        workCntrl.appear (w)->
+          for s in work.getElementsByTagName('script')
+            eval s.innerHTML
+          FB?.XFBML.parse w.container
+          twttr?.widgets.load()
           
         window.history?.pushState({index: 1, work: @url}, '', @url) unless noPopState
         loader.stop()

@@ -26,15 +26,15 @@ class Router
 
       
   bind: ->
+    window.addEventListener 'wheel', (e)-> e.preventDefault()
     for sceen, index in @screens
       sceen.addEventListener 'wheel', ((index)=>(e)=>
         return if @animating
         if e.deltaY > 0 and (@body.scrollTop >= @body.scrollHeight - window.innerHeight)
-          e.preventDefault()
           if index < @screens.length - 1 then @loadScreen({index: index+1}, null, true) 
         else if e.deltaY < 0 and (@body.scrollTop == 0)
-          e.preventDefault()
           if index > 0 then @loadScreen({index: index-1}, null, true))(index)
+      
 
     window.addEventListener 'popstate', ((e)=>
       if e.state
@@ -56,20 +56,22 @@ class Router
       targetScreen.style.zIndex = 10
 
       if scr < @screen
-        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '-25%'], scale: [1, 'easeInExpo', 0.95] }
+        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '-25%'], scale: [1, 'easeInExpo', 0.9] }
         currentScreenAnim =
           translateZ: 0
           translateY: ['100%', 'easeOutQuad', 0]
-          boxShadowBlur: [0, 'easeInExpo', 100]
-          boxShadowSpread: [0, 'easeInExpo', 25]
+          # box-shadow ruins fps in webkit...
+          #boxShadowBlur: [0, 'easeInExpo', 100]
+          #boxShadowSpread: [0, 'easeInExpo', 25]
       else
-        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '25%'], scale: [1, 'easeInExpo', 0.95] }
+        targetScreenAnim = { translateZ: 0, translateY: [0, 'easeOutQuad', '25%'], scale: [1, 'easeInExpo', 0.9] }
         currentScreenAnim =
           translateZ: 0
           translateY: ['-100%', 'easeOutQuad', 0]
-          boxShadowBlur: [0, 'easeInExpo', 100]
-          boxShadowSpread: [0, 'easeInExpo', 25]
-
+          # box-shadow ruins fps in webkit...
+          #boxShadowBlur: [0, 'easeInExpo', 100]
+          #boxShadowSpread: [0, 'easeInExpo', 25]
+          
       Velocity currentScreen, currentScreenAnim,
         queue: false
         duration: if transition? then transition else @transitionDuration
@@ -85,6 +87,7 @@ class Router
             @animEnded()
             callback(scr) if callback
             @onScreenChange(scr) if @onScreenChange
+            currentScreen.controller?.unload?()
           ), 10
       @screen = scr
     else

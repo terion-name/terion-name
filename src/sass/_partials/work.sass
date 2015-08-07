@@ -8,10 +8,10 @@
     top: 55px
     background: #777
     +transform(translateY(0) translateZ(0))
-    +transition(transform 0.3s $easeOutQuad)
+    //+transition(transform 0.3s $easeOutQuad)
     &.hidden
       +transform(translateY(-100%) translateZ(0))
-      +transition(transform 0.3s $easeOutQuad)
+      //+transition(transform 0.3s $easeOutQuad)
     .slide
       position: absolute
       width: 100%
@@ -19,6 +19,7 @@
       left: 0
       top: 0
       background: #000
+      +transform(translateZ(0))
       .loader_widget
         width: 15%
       &.animated_out
@@ -66,10 +67,10 @@
     height: auto
     padding: 25px 25px 25px 55px
     +box-sizing(border-box)
-    background: rgba(255, 255, 255, 0.8)
+    background: rgba(255, 255, 255, 0.9)
     color: #000
     +transform(translateZ(0))
-    +transition(transform 0.3s $easeOutQuad)
+    //+transition(transform 0.3s $easeOutQuad)
     .hide
       position: absolute
       left: 50%
@@ -84,12 +85,14 @@
       border-bottom-width: 0
     &.hidden
       +transform(translateY(calc(100% - 15px)) translateZ(0))
-      +transition(transform 0.3s $easeOutQuad)
+      //+transition(transform 0.3s $easeOutQuad)
       &.fully
         +transform(translateY(100%) translateZ(0))
       .hide
         border-bottom-width: 15px
         border-top-width: 0
+    &.anim
+      +transition(transform 0.3s $easeOutQuad)
         
     h1
       font-size: 1em
