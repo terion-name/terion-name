@@ -136,3 +136,14 @@ once = (node, type, callback)->
     # call handler
     callback e
   return
+
+getLocation = (href) ->
+  match = href.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)(\/[^?#]*)(\?[^#]*|)(#.*|)$/)
+  match and
+    protocol: match[1]
+    host: match[2]
+    hostname: match[3]
+    port: match[4]
+    pathname: match[5]
+    search: match[6]
+    hash: match[7]

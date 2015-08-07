@@ -199,8 +199,7 @@ class WorkController
         slide.loaded = true
     else if hasClass slide, 'video'
       videoSrc = slide.getAttribute('data-src')
-      parser = document.createElement 'a'
-      parser.href = videoSrc
+      parser = getLocation videoSrc
       if videoSrc.search('vimeo') > 0
         videoId = trim parser.pathname, '/'
         @loadVideoVimeo videoId, slide
