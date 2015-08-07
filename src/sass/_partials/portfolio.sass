@@ -32,6 +32,8 @@ section.screen#portfolio
         filter: grayscale(100%)
         +transition(filter 0.5s, -webkit-filter 0.5s)
         +transform(translateZ(0))
+        &.anim
+          +transition(filter 0.5s, -webkit-filter 0.5s, left 250ms $easeOutQuad, top 250ms $easeOutQuad, width 250ms $easeOutQuad, height 250ms $easeOutQuad)
         .details
           position: absolute
           width: 100%

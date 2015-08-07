@@ -32,24 +32,46 @@ class PortfolioItem
     return if @isSimple
     left = @column * @width
     top = @row * @height
-    if not tranitionDuration or tranitionDuration == 0
-      @item.style.left = left + 'px'
-      @item.style.top = top + 'px'
-      @item.style.width = @width + 'px'
-      @item.style.height = @height + 'px'
+
+    # seriously, css animation in safari works worse... oh
+    # but they work better in others
+    # don't really want to make a user-agent based decision. let it be css for time being
+    cssAnim = true
+    if cssAnim
+      if not tranitionDuration or tranitionDuration == 0
+        removeClass @item, 'anim'
+      else
+        addClass @item, 'anim'
+      setTimeout (=>
+        @item.style.left = left + 'px'
+        @item.style.top = top + 'px'
+        @item.style.width = @width + 'px'
+        @item.style.height = @height + 'px'
+        if not tranitionDuration or tranitionDuration == 0
+          callback(@item) if callback
+        else
+          once @item, window._transitionEndEventName, => callback(@item) if callback
+      ), 5
     else
-      Velocity @item, {
-        translateZ: 0
-        left: left + 'px'
-        top: top + 'px'
-        width: @width + 'px'
-        height: @height + 'px'
-      }, {
-        duration: tranitionDuration
-        easing: 'easeOutQuad'
-        queue: false
-        complete: => callback(@item) if callback
-      }
+      if not tranitionDuration or tranitionDuration == 0
+        @item.style.left = left + 'px'
+        @item.style.top = top + 'px'
+        @item.style.width = @width + 'px'
+        @item.style.height = @height + 'px'
+        callback(@item) if callback
+      else
+        Velocity @item, {
+          translateZ: 0
+          left: left + 'px'
+          top: top + 'px'
+          width: @width + 'px'
+          height: @height + 'px'
+        }, {
+          duration: tranitionDuration
+          easing: 'easeOutQuad'
+          queue: false
+          complete: => callback(@item) if callback
+        }
 
   loadWork: (noPopState, customUrl)->
     @freeze = true
