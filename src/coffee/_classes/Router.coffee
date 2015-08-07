@@ -7,7 +7,12 @@ class Router
     @onScreenChange = null
     
     @body = document.body
+    @html = document.getElementsByTagName('html')[0]
     @screens = document.getElementsByClassName('screen')
+    
+    # this is used to overcome mac os inertia issues during navigation 
+    @screenChangeTime = new Date()
+    @lastScroll = new Date()
     
     if @screens.length == 1
       @initSinglePage()
@@ -25,17 +30,25 @@ class Router
     @screens[@screen].style.display = 'block'
 
       
-  bind: ->
-    window.addEventListener 'wheel', (e)-> e.preventDefault()
+  bind: ->        
     for sceen, index in @screens
       sceen.addEventListener 'wheel', ((index)=>(e)=>
+        thisScroll = new Date()
+        inertia = (thisScroll - @screenChangeTime < 300) or (thisScroll - @lastScroll < 60)
+        @lastScroll = thisScroll
+        # normalize firefox
+        globalScroll = @body.scrollTop or @html.scrollTop
         return if @animating
-        if e.deltaY > 0 and (@body.scrollTop >= @body.scrollHeight - window.innerHeight)
-          if index < @screens.length - 1 then @loadScreen({index: index+1}, null, true) 
-        else if e.deltaY < 0 and (@body.scrollTop == 0)
-          if index > 0 then @loadScreen({index: index-1}, null, true))(index)
-      
+        unless inertia
+          if e.deltaY > 0 and (globalScroll >= @body.scrollHeight - window.innerHeight)
+            if index < @screens.length - 1 then @loadScreen({index: index+1}, null, true)
+          else if e.deltaY < 0 and (@body.scrollTop == 0)
+            if index > 0 then @loadScreen({index: index-1}, null, true))(index)
 
+    window.addEventListener 'wheel', (e)=>
+      unless @body.scrollHeight - window.innerHeight > 0
+        e.preventDefault()
+      
     window.addEventListener 'popstate', ((e)=>
       if e.state
         @loadScreen e.state
@@ -84,10 +97,14 @@ class Router
         complete: =>
           setTimeout (=>
             targetScreen.controller?.setup?()
-            @animEnded()
             callback(scr) if callback
             @onScreenChange(scr) if @onScreenChange
             currentScreen.controller?.unload?()
+            
+            # firefox on mac behave very strange with inertia.. this is a workaround
+            @screenChangeTime = new Date()
+            
+            @animEnded()
           ), 10
       @screen = scr
     else
