@@ -2,6 +2,12 @@ extends ../layouts/main
 
 block menu
     +menu('about')
-
+    
+block socials
+    meta(property="og:url", content="http://terion.name")
+    meta(property="og:title", content="About — Terion")
+    meta(property="og:description", content="Full stack developer with high graphic design skills and medium 3D-modeling skills")
+    meta(property="og:image", content="http://terion.name/img/fb_share.png")
+    
 block content
     include screens/about

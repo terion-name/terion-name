@@ -8,26 +8,38 @@ mixin likes(url, inverted)
             .holder like
             .container
                 .vk-like
-                script(type='text/javascript')
-                    :coffee-script
-                        do ->
-                            likers = document.getElementsByClassName('vk-like')
-                            if VK?
-                                i = 0
-                                while i < likers.length
-                                    liker = likers[i]
-                                    if !liker.getAttribute('id')
-                                        randomId = 'vk_like_' + Math.ceil(Math.random() * Math.random() * 10000)
-                                        liker.setAttribute 'id', randomId
-                                        VK.Widgets.Like randomId,
-                                            height: 20
-                                            type: "mini"
-                                            locale: 'en_US'
-                                    i++
-                            else
-                                for like in likers
-                                    like.style.display = 'none'
-
+                script(type='text/javascript').
+                    (function () {
+                        var i, j, len, like, liker, likers, randomId, results, results1;
+                        likers = document.getElementsByClassName('vk-like');
+                        if (typeof VK !== "undefined" && VK !== null) {
+                            i = 0;
+                            results = [];
+                            while (i < likers.length) {
+                                liker = likers[i];
+                                if (!liker.getAttribute('id')) {
+                                    randomId = 'vk_like_' + Math.ceil(Math.random() * Math.random() * 10000);
+                                    liker.setAttribute('id', randomId);
+                                    VK.Widgets.Like(randomId, {
+                                        height: 20,
+                                        type: "mini",
+                                        locale: 'en_US',
+                                        pageUrl: "#{url}"
+                                    });
+                                }
+                                results.push(i++);
+                            }
+                            return results;
+                        } else {
+                            results1 = [];
+                            for (j = 0, len = likers.length; j < len; j++) {
+                                like = likers[j];
+                                results1.push(like.style.display = 'none');
+                            }
+                            return results1;
+                        }
+                    })();
+                        
         .tw
             .holder tweet
             .container

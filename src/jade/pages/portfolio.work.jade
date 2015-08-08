@@ -4,8 +4,8 @@ block menu
     +menu('portfolio')
     
 block socials
-    meta(property="og:url", content="http://terion.name/portfolio/#{alias}")
-    meta(property="og:title", content="#{title}")
+    meta(property="og:url", content="http://terion.name/portfolio/#{alias}/")
+    meta(property="og:title", content="#{title} — Terion")
     meta(property="og:description", content="#{details.about}")
     meta(property="og:image", content="http://terion.name/img/portfolio/#{alias}/#{media.fb}")
 
@@ -33,6 +33,7 @@ block content
                 <br><strong>Detailed scope of work:</strong> #{details.scope}
                 <br><strong>Tech:</strong> #{details.tech}
             +likes("/portfolio/" + alias, true)
+            
             if awards
                 .awards
                     each award in awards
