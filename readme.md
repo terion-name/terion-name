@@ -1,4 +1,3 @@
 #TODO:
 
-* make screen transitions via css
-* make slides transitions via css
+* Create some stunning stuff on background of home screen
