@@ -110,8 +110,10 @@ class Router
     else
       callback(scr) if callback
       @animEnded()
-      
-    window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}") unless noPopState
+
+    unless noPopState
+      window.history?.pushState({index: scr}, '', "/#{@screens[scr].getAttribute('id')}")
+      ga?('send', 'pageview')
     window.siteHeader.homeMode(scr == 0)
     
   loadScreen: (opts, transition, pushstate)->

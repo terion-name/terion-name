@@ -162,11 +162,13 @@
       "preview": "preview.jpg",
       "fb": "fb.jpg",
       "gallery": [
-        "scr1.png",
-        "scr2.png",
-        "scr3.png",
-        "scr4.png",
-        {"video": "https://vimeo.com/70416734"}
+        "scr1.jpg",
+        "scr2.jpg",
+        "scr3.jpg",
+        "scr4.jpg",
+        "scr5.jpg",
+        "scr6.jpg",
+        {"video": "https://www.youtube.com/watch?v=o5m7lepa82g"}
       ]
     }
   },
